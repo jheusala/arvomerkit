@@ -53,6 +53,13 @@ require(["jquery"], function($) {
 			game_state.single_content.remove();
 			game_state.single_content = undefined;
 		}
+		game_state = {
+			'start_time': undefined,
+			'score': 0,
+			'tries': 0,
+			'successes': 0,
+			'fails': 0
+		};
 	}
 	
 	function start_game() {

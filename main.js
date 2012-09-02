@@ -49,12 +49,15 @@ require(["jquery"], function($) {
 	
 	function end_game() {
 		$('#end_game').modal('show');
+		if(game_state.single_content) {
+			game_state.single_content.remove();
+			game_state.single_content = undefined;
+		}
 	}
 	
 	function start_game() {
 		init_single();
 		game_state.start_time = new Date();
-		$("#start_game").modal('hide');
 		
 		setInterval(function(){
 			var now = new Date(),
@@ -66,6 +69,8 @@ require(["jquery"], function($) {
 	}
 	
 	function init_single() {
+		var content = $("#test_content").clone().show();
+		game_state.single_content = content;
 		game_state.single_start_time = new Date();
 		function end_single(success) {
 			var now = new Date(), 
@@ -90,15 +95,12 @@ require(["jquery"], function($) {
 				if(game_state.score >= 100) { game_state.score -= 100; }
 				else { game_state.score = 0; }
 			}
-			
 
-
-			
 			game_state.single_start_time = undefined;
 			content.remove();
+			game_state.single_content = undefined;
 			init_single();
 		}
-		var content = $("#test_content").clone().show();
 		content.appendTo('#content');
 		var items = get_options(4);
 		var right_item = 1 + Math.floor(Math.random()*items.length);
@@ -131,9 +133,11 @@ require(["jquery"], function($) {
     $(function() {
 		$("#start_game").modal('show');
 		$("#start_game .btn").click(function(){
+			$("#start_game").modal('hide');
 			start_game();
 		});
 		$("#end_game .btn").click(function(){
+			$("#end_game").modal('hide');
 			start_game();
 		});
 		$("#test_content").hide();

@@ -1,6 +1,6 @@
 <html>
 	<head>
-		<title>Arvomerkit</title>
+		<title>Arvomerkkipeli</title>
 		<script data-main="main" src="require.js"></script>
 		<link href="bootstrap/css/bootstrap.css" rel="stylesheet" />
 		<link href="main.css" rel="stylesheet" />
@@ -8,13 +8,51 @@
 	</head>
 	<body>
 
+		<div id="game_state" class="game_state">
+			<div class="progress progress-success">
+				<div class="bar" style="width: 0%"></div>
+			</div>
+			
+			Pisteet: <span class="badge badge-success score">0</span>
+			Virheet: <span class="badge badge-warning fails">0</span>
+			<hr />
+		</div>
+		
+		<div id="start_game" class="modal fade">
+		  <div class="modal-header">
+			<h3>Inttipeli</h3>
+		  </div>
+		  <div class="modal-body">
+			<p>Pelissä tulee valita oikeita arvomerkkejä. Saat pisteitä nopeudestasi.</p>
+		  </div>
+		  <div class="modal-footer">
+			<a href="#" class="btn btn-primary">Aloita peli</a>
+		  </div>
+		</div>
+
+		<div id="end_game" class="modal fade">
+		  <div class="modal-header">
+			<h3>Peli loppui!</h3>
+		  </div>
+		  <div class="modal-body">
+			<p>Tilanne lopussa:
+			<div class="game_state">
+			Pisteet: <span class="badge badge-success score">0</span><br />
+			Virheet: <span class="badge badge-warning fails">0</span>
+			</div>
+		  </div>
+		  <div class="modal-footer">
+			<a href="#" class="btn btn-primary">Aloita uusi peli</a>
+		  </div>
+		</div>
+
 		<div id="content">
 		</div>
 
 		<div id="test_content">
 
 			<form>
-				<legend>Valitse: <span class="hint">undefined</span>...</legend>
+				<legend>Valitse: <span class="hint">undefined</span></legend>
 
 				<div class="options">
 					<a class="link_option1" href="#"><img class="img_option1 option" src="graphics/wikipedia/Kenraali_hihalaatta.svg" style="width:200px" /></a>
@@ -28,11 +66,6 @@
 		</div>
 		
 		<hr />
-		
-		<div id="stats">
-			Onnistuneet: <span class="badge badge-success successes">0</span>
-			Virheet: <span class="badge badge-warning fails">0</span>
-		</div>
 		
 		<script src="jquery.js" charset="utf-8"></script>
 		<script src="bootstrap/js/bootstrap.js" charset="utf-8"></script>

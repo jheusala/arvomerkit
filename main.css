@@ -2,3 +2,7 @@
 body {
 	margin: 2% 17%;
 }
+
+#test_content  .hint {
+	color: green;
+}

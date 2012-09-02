@@ -1,7 +1,9 @@
 ﻿
 require(["jquery"], function($) {
 	
-	var stats = {
+	var game_state = {
+		'start_time': undefined,
+		'score': 0,
 		'tries': 0,
 		'successes': 0,
 		'fails': 0
@@ -30,10 +32,10 @@ require(["jquery"], function($) {
 			"Ylikersantti",
 			"Upseerikokelas",
 			"Kersantti",
-			"Upseerioppilas",
+			//"Upseerioppilas",
 			"Alikersantti",
 			"Korpraali",
-			"Aliupseerioppilas",
+			//"Aliupseerioppilas",
 			"Sotamies"
 		];
 		function randOrd(){ return (Math.round(Math.random())-0.5); }
@@ -45,17 +47,56 @@ require(["jquery"], function($) {
 		return ret;
 	}
 	
-	function init_test() {
-		function end_game(success) {
-			//alert("end_game()");
-			stats.tries++;
+	function end_game() {
+		$('#end_game').modal('show');
+	}
+	
+	function start_game() {
+		init_single();
+		game_state.start_time = new Date();
+		$("#start_game").modal('hide');
+		
+		setInterval(function(){
+			var now = new Date(),
+				time_secs = (now.getTime() - game_state.start_time.getTime()) / 1000,
+				progress = time_secs >= 60 ? 100 : Math.floor(time_secs/60*100);
+			$('.game_state .progress .bar').css('width', progress + '%');
+			if(time_secs >= 60) end_game();
+		},500);
+	}
+	
+	function init_single() {
+		game_state.single_start_time = new Date();
+		function end_single(success) {
+			var now = new Date(), 
+				time = (now.getTime() - game_state.single_start_time.getTime()) / 1000;
+			
+			//alert("end_single()");
+			game_state.tries++;
 			if(success) {
-				stats.successes++;
+				game_state.successes++;
+				if(time <= 2) {
+					game_state.score += 100;
+				} else if(time <= 6) {
+					game_state.score += 50;
+				} else if(time <= 16) {
+					game_state.score += 10;
+				} else {
+					game_state.score += 1;
+				}
 			} else {
-				stats.fails++;
+				game_state.fails++;
+				
+				if(game_state.score >= 100) { game_state.score -= 100; }
+				else { game_state.score = 0; }
 			}
+			
+
+
+			
+			game_state.single_start_time = undefined;
 			content.remove();
-			init_test();
+			init_single();
 		}
 		var content = $("#test_content").clone().show();
 		content.appendTo('#content');
@@ -71,23 +112,32 @@ require(["jquery"], function($) {
 			(function(n) {
 				if(n === right_item) {
 					content.find(".link_option" + n).click(function() {
-						end_game(true);
+						end_single(true);
 					});
 				} else {
 					content.find(".link_option" + n).click(function() {
-						end_game(false);
+						end_single(false);
 					});
 				}
 				content.find(".img_option" + n).attr("src", get_img([items[i], "kauluslaatta"]));
 			})(nn);
 		}
 		
-		$("#stats .successes").text(stats.successes);
-		$("#stats .fails").text(stats.fails);
+		$(".game_state .score").text(game_state.score);
+		$(".game_state .successes").text(game_state.successes);
+		$(".game_state .fails").text(game_state.fails);
 	}
 	
     $(function() {
+		$("#start_game").modal('show');
+		$("#start_game .btn").click(function(){
+			start_game();
+		});
+		$("#end_game .btn").click(function(){
+			start_game();
+		});
 		$("#test_content").hide();
-		init_test();
+		
+		//init_single();
     });
 });

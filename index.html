@@ -1,13 +1,16 @@
+<!DOCTYPE html>
 <html>
 	<head>
 		<title>Arvomerkkipeli</title>
-		<script data-main="main" src="require.js"></script>
 		<link href="bootstrap/css/bootstrap.css" rel="stylesheet" />
 		<link href="main.css" rel="stylesheet" />
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<script data-main="main" src="require.js" charset="utf-8"></script>
 	</head>
 	<body>
 
+		<noscript><p><span class="label label-warning"><b>Huomaa!</b> Tämä sovellus tarvitsee JavaScript-tuen.</span></p></noscript>
+		
 		<div id="game_state" class="game_state">
 			<div class="progress progress-success">
 				<div class="bar" style="width: 0%"></div>
@@ -48,18 +51,29 @@
 
 		<div id="content">
 		</div>
-
+		
+		<div id="game_option_template" class="hide">
+				<span style="float:left">
+					<!--[if !IE]>-->
+					<object data="graphics/empty.svg" type="image/svg+xml"
+							width="200" height="98" id="mySVGObject"><!--<![endif]-->
+					<!--[if lt IE 9]>
+					<object src="graphics/empty.svg" classid="image/svg+xml"
+							width="200" height="98" id="mySVGObject"><![endif]-->
+					<!--[if gte IE 9]>
+					<object data="graphics/empty.svg" type="image/svg+xml"
+							width="200" height="98" id="mySVGObject"><![endif]-->
+					</object>
+					<div class="link" style="background:transparent;position:relative;top:-98px;display:block;width:200px;height:98px;display:block"></div>
+				</span>
+		</div>
+		
 		<div id="test_content">
 
 			<form>
 				<legend>Valitse: <span class="hint">undefined</span></legend>
 
-				<div class="options">
-					<a class="link_option1" href="#"><img class="img_option1 option" src="graphics/wikipedia/Kenraali_hihalaatta.svg" style="width:200px" /></a>
-					<a class="link_option2" href="#"><img class="img_option2 option" src="graphics/wikipedia/Kenraalimajuri_hihalaatta.svg" style="width:200px" /></a>
-					<a class="link_option3" href="#"><img class="img_option3 option" src="graphics/wikipedia/Kenraaliluutnantti_hihalaatta.svg" style="width:200px" /></a>
-					<a class="link_option4" href="#"><img class="img_option4 option" src="graphics/wikipedia/Prikaatikenraali_hihalaatta.svg" style="width:200px" /></a>
-				</div>
+				<div class="options"></div>
 				
 			</form>
 		 
@@ -67,11 +81,7 @@
 		
 		<hr />
 		
-		<script src="jquery.js" charset="utf-8"></script>
-		<script src="bootstrap/js/bootstrap.js" charset="utf-8"></script>
-
-		
 		<a href="https://github.com/jheusala/arvomerkit"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_left_green_007200.png" alt="Fork me on GitHub"></a>
-		
+				
 	</body>
 </html>

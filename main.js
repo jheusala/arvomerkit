@@ -1,5 +1,5 @@
 ﻿
-require(["jquery"], function($) {
+require(["jquery", "bootstrap/js/bootstrap.js", "svgweb/svg.js"], function($, bootstrap, svgweb) {
 	
 	var game_state = {
 		'start_time': undefined,
@@ -76,6 +76,18 @@ require(["jquery"], function($) {
 	}
 	
 	function init_single() {
+		
+		function create_image_link(src, id) {
+			var template = $("#game_option_template span").clone();
+			var div = template.find("div");
+			var obj = template.find("object");
+			obj.attr("class", ""+id);
+			if(obj.attr("data")) obj.attr("data", ""+src);
+			else obj.attr("src", ""+src);
+			obj.attr("id", ""+id);
+			return template;
+		}
+		
 		var content = $("#test_content").clone().show();
 		game_state.single_content = content;
 		game_state.single_start_time = new Date();
@@ -118,17 +130,20 @@ require(["jquery"], function($) {
 		for(i in items) {
 			nn = nn + 1;
 			//alert( nn + " == " + items[i]);
+			
 			(function(n) {
+				var option = create_image_link(get_img([items[i], "kauluslaatta"]), "link_option" + n);
+				
 				if(n === right_item) {
-					content.find(".link_option" + n).click(function() {
+					option.find(".link").click(function() {
 						end_single(true);
 					});
 				} else {
-					content.find(".link_option" + n).click(function() {
+					option.find(".link").click(function() {
 						end_single(false);
 					});
 				}
-				content.find(".img_option" + n).attr("src", get_img([items[i], "kauluslaatta"]));
+				option.appendTo(content);
 			})(nn);
 		}
 		
@@ -139,11 +154,11 @@ require(["jquery"], function($) {
 	
     $(function() {
 		$("#start_game").modal('show');
-		$("#start_game .btn").click(function(){
+		$("#start_game .btn").mousedown(function(){
 			$("#start_game").modal('hide');
 			start_game();
 		});
-		$("#end_game .btn").click(function(){
+		$("#end_game .btn").mousedown(function(){
 			$("#end_game").modal('hide');
 			start_game();
 		});
